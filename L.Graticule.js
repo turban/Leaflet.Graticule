@@ -18,7 +18,7 @@ L.Graticule = L.GeoJSON.extend({
         if (this.options.sphere) {
             this.addData(this._getFrame());
         } else {
-            this.addData(this._getGraticule());      
+            this.addData(this._getGraticule());
         }
     },
 
@@ -36,26 +36,26 @@ L.Graticule = L.GeoJSON.extend({
         // Meridians
         for (var lng = 0; lng <= 180; lng = lng + interval) {
             features.push(this._getFeature(this._getMeridian(lng), {
-                "name": (lng) ? lng.toString() + "° E" : "Prime meridian"    
+                "name": (lng) ? lng.toString() + "° E" : "Prime meridian"
             }));
             if (lng !== 0) {
                 features.push(this._getFeature(this._getMeridian(-lng), {
                     "name": lng.toString() + "° W"
-                }));    
+                }));
             }
         }
 
         // Parallels
-        for (var lat = 0; lat <= 90; lat = lat + interval) {  
+        for (var lat = 0; lat <= 90; lat = lat + interval) {
             features.push(this._getFeature(this._getParallel(lat), {
-                "name": (lat) ? lat.toString() + "° N" : "Equator"   
+                "name": (lat) ? lat.toString() + "° N" : "Equator"
             }));
             if (lat !== 0) {
                 features.push(this._getFeature(this._getParallel(-lat), {
                     "name": lat.toString() + "° S"
-                }));      
+                }));
             }
-        } 
+        }
 
         return {
             "type": "FeatureCollection",
@@ -77,7 +77,7 @@ L.Graticule = L.GeoJSON.extend({
         for (var lng = -180; lng <= 180; lng++) {
             coords.push([this._lngFix(lng), lat]);
         }
-        return coords;    
+        return coords;
     },
 
     _getFeature: function (coords, prop) {
@@ -88,14 +88,14 @@ L.Graticule = L.GeoJSON.extend({
                 "coordinates": coords
             },
             "properties": prop
-        }
+        };
     },
 
     _lngFix: function (lng) {
         if (lng >= 180) return 179.999999;
         if (lng <= -180) return -179.999999;
-        return lng;        
-    }  
+        return lng;
+    }
 
 });
 
