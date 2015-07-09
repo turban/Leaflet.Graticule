@@ -22,6 +22,23 @@ L.Graticule = L.GeoJSON.extend({
         }
     },
 
+    setInterval: function (interval) {
+        if (interval !== this.options.interval) {
+            this.options.interval = interval;
+        }
+    },
+
+    setExtent: function(latLngBounds) {
+        if (!latLngBounds.equals(this.options.extent)) {
+            this.options.extent = latLngBounds;
+        }
+    },
+
+    refresh: function() {
+        this.clearLayers();
+        this.initialize(this.options);
+    },
+
     _getFrame: function() {
         return { "type": "Polygon",
           "coordinates": [
@@ -35,25 +52,51 @@ L.Graticule = L.GeoJSON.extend({
 
         // Meridians
         for (var lng = 0; lng <= 180; lng = lng + interval) {
-            features.push(this._getFeature(this._getMeridian(lng), {
-                "name": (lng) ? lng.toString() + "° E" : "Prime meridian"
-            }));
-            if (lng !== 0) {
-                features.push(this._getFeature(this._getMeridian(-lng), {
-                    "name": lng.toString() + "° W"
+            if (this.options.extent) {
+                if (lng > this.options.extent.getWest() && lng < this.options.extent.getEast()) {
+                    features.push(this._getFeature(this._getMeridian(lng), {
+                        "name": (lng) ? lng.toString() + "° E" : "Prime meridian"
+                    }));
+                }
+                if (lng !== 0 && -lng > this.options.extent.getWest() && -lng < this.options.extent.getEast()) {
+                    features.push(this._getFeature(this._getMeridian(-lng), {
+                        "name": lng.toString() + "° W"
+                    }));
+                }
+            } else {
+                features.push(this._getFeature(this._getMeridian(lng), {
+                    "name": (lng) ? lng.toString() + "° E" : "Prime meridian"
                 }));
+                if (lng !== 0) {
+                    features.push(this._getFeature(this._getMeridian(-lng), {
+                        "name": lng.toString() + "° W"
+                    }));
+                }
             }
         }
 
         // Parallels
         for (var lat = 0; lat <= 90; lat = lat + interval) {
-            features.push(this._getFeature(this._getParallel(lat), {
-                "name": (lat) ? lat.toString() + "° N" : "Equator"
-            }));
-            if (lat !== 0) {
-                features.push(this._getFeature(this._getParallel(-lat), {
-                    "name": lat.toString() + "° S"
+            if (this.options.extent) {
+                if (lat > this.options.extent.getSouth() && lat < this.options.extent.getNorth()) {
+                    features.push(this._getFeature(this._getParallel(lat), {
+                        "name": (lat) ? lat.toString() + "° N" : "Equator"
+                    }));
+                }
+                if (lat !== 0 && -lat > this.options.extent.getSouth() && -lat < this.options.extent.getNorth()) {
+                    features.push(this._getFeature(this._getParallel(-lat), {
+                        "name": lat.toString() + "° S"
+                    }));
+                }
+            } else {
+                features.push(this._getFeature(this._getParallel(lat), {
+                    "name": (lat) ? lat.toString() + "° N" : "Equator"
                 }));
+                if (lat !== 0) {
+                    features.push(this._getFeature(this._getParallel(-lat), {
+                        "name": lat.toString() + "° S"
+                    }));
+                }
             }
         }
 
