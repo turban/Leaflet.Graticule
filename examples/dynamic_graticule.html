@@ -36,10 +36,7 @@
     <div id='map'></div>
 </div>
 
-<script src="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet-src.js"></script>
-<script type="text/javascript" src="lib/proj4js-compressed.js"></script>    
-<script type="text/javascript" src="lib/proj4leaflet.js"></script>    
-<script type="text/javascript" src="lib/countries-110m.js"></script>       
+<script src="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet-src.js"></script>    
 <script type="text/javascript" src="../L.Graticule.js"></script>
 
 <script type='text/javascript'>
@@ -120,7 +117,6 @@ var getGraticuleLabels = function() {
                 ((mapBounds.getNorth() - mapBounds.getSouth()) * 0.25), 
                 graticuleFeatures[i].feature.geometry.coordinates[0][0]);
 
-            //graticuleLabels.push({feature: graticuleFeatures[i].feature, latLng: merLatLng});
             graticuleLabelsLayer.addLayer(new L.Marker(merLatLng, {
                     icon: new L.DivIcon({
                         html: graticuleFeatures[i].feature.properties.name,
@@ -138,7 +134,6 @@ var getGraticuleLabels = function() {
             var parLatLng = new L.LatLng(graticuleFeatures[i].feature.geometry.coordinates[0][1], 
                 mapBounds.getWest() + ((mapBounds.getEast() - mapBounds.getWest()) * 0.75));
 
-            //graticuleLabels.push({feature: graticuleFeatures[i].feature, latLng: parLatLng});
             graticuleLabelsLayer.addLayer(new L.Marker(parLatLng, {
                     icon: new L.DivIcon({
                         html: graticuleFeatures[i].feature.properties.name,
