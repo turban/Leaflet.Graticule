@@ -13,7 +13,7 @@ optional options object with the following properties:
 * `interval`: the gap between each graticule line, in degrees
 * `style`: [path options](http://leafletjs.com/reference.html#path-options) for
   the generated lines
-* `extent`: an optional L.LatLngBounds that specifies the limits of the graticule,
+* `extent`: an optional [LatLngBounds](http://leafletjs.com/reference.html#latlngbounds) that specifies the limits of the graticule,
   doesn't work well with non-Web Mercator/WGS84 projections such as Mollweide
 
 ## Example
